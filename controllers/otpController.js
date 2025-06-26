@@ -1,5 +1,5 @@
 const otpModel = require("../models/otp");
-const userModel = require("../models/userModel");
+const userModel = require("../models/auth/userModel");
 const argon2 = require("argon2");
 const nodemailer = require("nodemailer");
 const handleAsync = require("../utilities/handleAsync");

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const {SECRET_ACCESS_TOKEN} = require("../config/index");
+const {SECRET_ACCESS_TOKEN} = require("../../config/index");
 
 const userSchema = new mongoose.Schema({
     username:{

@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../models/auth/userModel");
 const argon2 = require("argon2");
 const handleAsync = require("../utilities/handleAsync");
 const MESSAGES = require("../helpers/messages");

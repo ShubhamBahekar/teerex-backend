@@ -1,4 +1,4 @@
-const userModel = require("../models/userModel");
+const userModel = require("../models/auth/userModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const SECRET_ACCESS_TOKEN = process.env.SECRET_ACCESS_TOKEN;
