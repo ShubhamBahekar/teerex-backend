@@ -1,30 +1,29 @@
-const otpModel = require("../models/otp");
-const userModel = require("../models/auth/userModel");
 const argon2 = require("argon2");
 const nodemailer = require("nodemailer");
 const handleAsync = require("../utilities/handleAsync");
 const MESSAGES = require("../helpers/messages");
+const UserInstance = require("../models/auth/repository/userRepository");
+const OTPInstance = require("../models/auth/repository/otpRepository")
 
 const sendEmail = handleAsync(async (req, res) => {
   const { email } = req.body;
 
-  let user = await userModel.findOne({ email });
+  let user = await UserInstance.findOneDoc({ email });
   const otpCode = Math.floor(1000 + Math.random() * 9000);
 
-  let otpData = await otpModel.findOne({ email });
+  let otpData = await OTPInstance.findOneDoc({ email });
 
   let currentTime = Date.now();
 
   if (!otpData) {
-    let createOtp = new otpModel({
+      await OTPInstance.createDoc({
       email: email,
       otp: otpCode,
       expiredIn: currentTime + 200 * 1000,
     });
-    await createOtp.save();
   }
 
-  await otpModel.findOneAndUpdate(
+  await OTPInstance.findAndUpdateDoc(
     { email },
     { otp: otpCode, expiredIn: currentTime + 2 * 60 * 1000 },
     { new: true }
@@ -57,7 +56,7 @@ const sendEmail = handleAsync(async (req, res) => {
 const verifyOTP = handleAsync(async (req, res) => {
   const { email, otp } = req.body;
 
-  let otpDetails = await otpModel.findOne({ email });
+  let otpDetails = await OTPInstance.findOneDoc({ email });
 
   if (!otpDetails) {
     return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP"));
@@ -78,9 +77,9 @@ const verifyOTP = handleAsync(async (req, res) => {
 });
 
 const resetPassword = handleAsync(async (req, res) => {
-  const { email, OTP, password, confirmPassword } = req.body;
+  const { email,confirmPassword } = req.body;
 
-  let data = await otpModel.findOne({ email });
+  let data = await OTPInstance.findOneDoc({ email });
 
   if (!data) {
     return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP"));
@@ -93,7 +92,7 @@ const resetPassword = handleAsync(async (req, res) => {
     return res.badRequest(MESSAGES.apiErrorStrings.DATA_IS_EXPIRED("OTP"));
   }
 
-  let user = await userModel.findOne({ email });
+  let user = await UserInstance.findOneDoc({ email });
   if (!user) {
     return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("User"));
   }
@@ -110,7 +109,7 @@ const resendOTP = handleAsync(async (req, res) => {
 
   const otpCode = Math.floor(1000 + Math.random() * 9000);
 
-  let otpData = await otpModel.findOne({ email });
+  let otpData = await OTPInstance.findOneDoc({ email });
 
   let currentTime = Date.now();
 
@@ -124,7 +123,7 @@ const resendOTP = handleAsync(async (req, res) => {
     return res.success({ expired: isExpired });
   }
 
-  await otpModel.findOneAndUpdate(
+  await OTPInstance.findAndUpdateDoc(
     { email },
     { otp: otpCode, expiredIn: currentTime + 2 * 60 * 1000 },
     { new: true }

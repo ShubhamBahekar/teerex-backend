@@ -7,8 +7,6 @@ const UserInstance = require("../models/auth/repository/userRepository");
 const handleCreateNewUser = handleAsync(async (req, res) => {
   const { username, email, password } = req.body;
 
-  //  console.log('req=======',req.body)
-
   const existingUser = await UserInstance.findOneDoc({ email });
 
   if (existingUser) {
@@ -17,7 +15,7 @@ const handleCreateNewUser = handleAsync(async (req, res) => {
 
   const hashedPassord = await argon2.hash(password);
 
-  const newUser = await userModel.create({
+  const newUser = await UserInstance.createDoc({
     username,
     email,
     password: hashedPassord,
@@ -28,7 +26,7 @@ const handleCreateNewUser = handleAsync(async (req, res) => {
 const handleLoginUser = handleAsync(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await userModel.findOne({ email });
+  const user = await UserInstance.findOneDoc({ email });
 
   if (!user) {
     return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Username"));
@@ -47,7 +45,7 @@ const handleLoginUser = handleAsync(async (req, res) => {
   const token = user.generateAccessJWT();
   console.log("token", token);
 
-  return res.success(MESSAGES.apiSuccessStrings.LOGIN("User"), token);
+  return res.success({msg:MESSAGES.apiSuccessStrings.LOGIN("User"),token:token});
 });
 
 module.exports = { handleCreateNewUser, handleLoginUser };
