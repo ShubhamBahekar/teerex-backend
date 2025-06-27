@@ -1,6 +1,6 @@
-const cartModel = require("../models/cart");
-const handleAsync = require("../utilities/handleAsync");
-const MESSAGES  = require("../helpers/messages")
+const cartModel = require("../../../../models/cart");
+const handleAsync = require("../../../../utilities/handleAsync");
+// const MESSAGES  = require("../helpers/messages")
 const handleGetAllCartProducts = handleAsync(async (req, res) => {
   
   const {userId} = req.params;

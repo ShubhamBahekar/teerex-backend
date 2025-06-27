@@ -4,15 +4,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require("multer");
-const connectMongoDb = require("./connection");
-const router = require("./routes/productRoute");
-const cartRouter = require("./routes/cartRoute");
-const userRouter = require("./routes/userRoute");
-const checkoutPageRouter = require("./routes/checkoutRoute")
+const connectMongoDb = require("./mongoose");
 const cookieParser = require("cookie-parser");
 const {PORT,URI} = require("./config/index")
-const Verify = require("./middlewares/verify")
 const customResponses = require("./helpers/customResponses")
+const apiRouters = require("./routes")
 
 
 app.use(express.static("public"));
@@ -33,11 +29,7 @@ mongoose.set("strictQuery", false);
 
  connectMongoDb(URI);
 
-app.use("/user",userRouter);
- app.use("/product",Verify, router);
-app.use("/cart",Verify,cartRouter);
-app.use("/checkout",Verify,checkoutPageRouter);
-
+app.use(apiRouters);
 
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {

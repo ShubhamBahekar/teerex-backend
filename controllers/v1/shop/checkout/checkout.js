@@ -1,5 +1,5 @@
-const userAddressDetails = require("../models/billingAddress");
-const handleAsync = require("../utilities/handleAsync");
+const userAddressDetails = require("../../../../models/billingAddress");
+const handleAsync = require("../../../../utilities/handleAsync");
 
 
 const getUserAddressDetails = handleAsync(async (req,res) =>{

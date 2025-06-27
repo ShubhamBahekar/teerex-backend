@@ -1,9 +1,9 @@
 const argon2 = require("argon2");
 const nodemailer = require("nodemailer");
-const handleAsync = require("../utilities/handleAsync");
-const MESSAGES = require("../helpers/messages");
-const UserInstance = require("../models/auth/repository/userRepository");
-const OTPInstance = require("../models/auth/repository/otpRepository")
+const handleAsync = require("../../../../utilities/handleAsync");
+const MESSAGES = require("../../../../helpers/messages");
+const UserInstance = require("../../../../models/auth/repository/userRepository");
+const OTPInstance = require("../../../../models/auth/repository/otpRepository")
 
 const sendEmail = handleAsync(async (req, res) => {
   const { email } = req.body;

@@ -1,6 +1,6 @@
-const MESSAGES = require("../helpers/messages");
-const Product = require("../models/product");
-const handleAsync = require("../utilities/handleAsync");
+const MESSAGES = require("../../../helpers/messages");
+const Product = require("../../../models/product");
+const handleAsync = require("../../../utilities/handleAsync");
 const handleGetAllProducts = async (req, res) => {
   const dbProducts = await Product.find({});
   res.json(dbProducts);

@@ -1,5 +1,5 @@
 const express = require("express");
-const { upload } = require("../middlewares/uploadConfig");
+const { upload } = require("../../../middlewares/uploadConfig");
 
 const router = express.Router();
 const {
@@ -8,7 +8,7 @@ const {
   handleDeleteProductById,
   handleUpdateProductById,
   handleCreateNewProduct,
-} = require("../controllers/productController");
+} = require("./products");
 
 router
   .route("/")

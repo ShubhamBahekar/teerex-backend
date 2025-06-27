@@ -1,8 +1,7 @@
-const userModel = require("../models/auth/userModel");
 const argon2 = require("argon2");
-const handleAsync = require("../utilities/handleAsync");
-const MESSAGES = require("../helpers/messages");
-const UserInstance = require("../models/auth/repository/userRepository");
+const handleAsync = require("../../../../utilities/handleAsync");
+const MESSAGES = require("../../../../helpers/messages");
+const UserInstance = require("../../../../models/auth/repository/userRepository")
 
 const handleCreateNewUser = handleAsync(async (req, res) => {
   const { username, email, password } = req.body;
