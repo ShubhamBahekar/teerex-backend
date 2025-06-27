@@ -4,12 +4,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require("multer");
-const connectMongoDb = require("./config/mongoose");
+const connectMongoDb = require("./configuration/mongoose");
 const cookieParser = require("cookie-parser");
-const {PORT,URI} = require("./config/index")
-const customResponses = require("./app/helpers/customResponses")
-const apiRouters = require("./app/routes")
-
+const { PORT, URI } = require("./configuration/config");
+const customResponses = require("./app/helpers/customResponses");
+const apiRouters = require("./app/routes");
 
 app.use(express.static("public"));
 // app.use(bodyParser.json());
@@ -17,17 +16,16 @@ app.use(cors());
 app.use("/uploads", express.static("./uploads"));
 app.disable("x-powered-by");
 app.use(cookieParser());
- app.use(express.urlencoded({ extended: true }));
- app.use(express.json());
-app.use(customResponses)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(customResponses);
 //  const upload = multer();
 //  app.use(upload.none());
 
-
- mongoose.promise = global.Promise;
+mongoose.promise = global.Promise;
 mongoose.set("strictQuery", false);
 
- connectMongoDb(URI);
+connectMongoDb(URI);
 
 app.use(apiRouters);
 

@@ -1,7 +1,6 @@
 const userModel = require("../models/auth/userModel");
+const {SECRET_ACCESS_TOKEN} = require("../../configuration/config")
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const SECRET_ACCESS_TOKEN = process.env.SECRET_ACCESS_TOKEN;
 
 const Verify = async (req, res, next) => {
   try {
