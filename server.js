@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require("multer");
-const connectMongoDb = require("./mongoose");
+const connectMongoDb = require("./config/mongoose");
 const cookieParser = require("cookie-parser");
 const {PORT,URI} = require("./config/index")
-const customResponses = require("./helpers/customResponses")
-const apiRouters = require("./routes")
+const customResponses = require("./app/helpers/customResponses")
+const apiRouters = require("./app/routes")
 
 
 app.use(express.static("public"));

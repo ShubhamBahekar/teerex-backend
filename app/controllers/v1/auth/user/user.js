@@ -12,12 +12,12 @@ const handleCreateNewUser = handleAsync(async (req, res) => {
     return res.conflict(MESSAGES.apiErrorStrings.DATA_ALREADY_EXISTS("User"));
   }
 
-  const hashedPassord = await argon2.hash(password);
+  const hashedPassword = await argon2.hash(password);
 
   const newUser = await UserInstance.createDoc({
     username,
     email,
-    password: hashedPassord,
+    password: hashedPassword,
   });
 
   return res.success({ username: newUser.username, email: newUser.email }, 201);

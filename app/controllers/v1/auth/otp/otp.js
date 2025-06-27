@@ -4,6 +4,8 @@ const handleAsync = require("../../../../utilities/handleAsync");
 const MESSAGES = require("../../../../helpers/messages");
 const UserInstance = require("../../../../models/auth/repository/userRepository");
 const OTPInstance = require("../../../../models/auth/repository/otpRepository")
+require("dotenv").config();
+const HOST_PASSWORD = process.env.HOST_PASSWORD;
 
 const sendEmail = handleAsync(async (req, res) => {
   const { email } = req.body;
@@ -39,7 +41,7 @@ const sendEmail = handleAsync(async (req, res) => {
     service: "Gmail",
     auth: {
       user: "shubhambahekar02@gmail.com",
-      pass: "azkl kffy vnso ipln",
+      pass: HOST_PASSWORD,
     },
   });
   const mailOptions = {
@@ -133,7 +135,7 @@ const resendOTP = handleAsync(async (req, res) => {
     service: "Gmail",
     auth: {
       user: "shubhambahekar02@gmail.com",
-      pass: "azkl kffy vnso ipln",
+      pass: HOST_PASSWORD ,
     },
   });
   const mailOptions = {
