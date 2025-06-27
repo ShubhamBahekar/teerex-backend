@@ -6,7 +6,7 @@ const UserInstance = require("../../../../models/auth/repository/userRepository"
 const OTPInstance = require("../../../../models/auth/repository/otpRepository")
 require("dotenv").config();
 const HOST_PASSWORD = process.env.HOST_PASSWORD;
-
+const HOST_USERNAME = process.env.HOST_USERNAME;
 const sendEmail = handleAsync(async (req, res) => {
   const { email } = req.body;
 
@@ -40,12 +40,12 @@ const sendEmail = handleAsync(async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-      user: "shubhambahekar02@gmail.com",
+      user: HOST_USERNAME,
       pass: HOST_PASSWORD,
     },
   });
   const mailOptions = {
-    from: "shubhambahekar02@gmail.com",
+    from: HOST_USERNAME,
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otpCode}.It will expire in 2 minutes`,
@@ -134,12 +134,12 @@ const resendOTP = handleAsync(async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-      user: "shubhambahekar02@gmail.com",
+      user: HOST_USERNAME,
       pass: HOST_PASSWORD ,
     },
   });
   const mailOptions = {
-    from: "shubhambahekar02@gmail.com",
+    from: HOST_USERNAME,
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otpCode}.It will expire in 2 minutes`,
