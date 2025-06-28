@@ -4,5 +4,4 @@ const apiRouter = require("./controllers/v1/routes")
 
 router.use("/v1",apiRouter);
 
-
 module.exports = router;

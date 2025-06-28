@@ -4,8 +4,9 @@ const handleAsync = require("../../../../utilities/handleAsync");
 const MESSAGES = require("../../../../helpers/messages");
 const UserInstance = require("../../../../models/auth/repository/userRepository");
 const OTPInstance = require("../../../../models/auth/repository/otpRepository")
-const {HOST_EMAIL,HOST_PASSWORD} = require("../../../../../configuration/config")
-
+const {nodeMailerTransporterOptions} = require("../../../../../configuration/config")
+const env  = require("dotenv");
+env.config();
 
 const sendEmail = handleAsync(async (req, res) => {
   const { email } = req.body;
@@ -37,15 +38,9 @@ const sendEmail = handleAsync(async (req, res) => {
     return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("UserId"));
   }
 
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: HOST_EMAIL,
-      pass: HOST_PASSWORD,
-    },
-  });
+  const transporter = nodemailer.createTransport(nodeMailerTransporterOptions);
   const mailOptions = {
-    from: HOST_EMAIL,
+    from: process.env.EMAIL_HOST,
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otpCode}.It will expire in 2 minutes`,
@@ -131,16 +126,9 @@ const resendOTP = handleAsync(async (req, res) => {
     { new: true }
   );
 
-  const transporter = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: HOST_EMAIL,
-      pass: HOST_PASSWORD ,
-    },
-  });
-
+  const transporter = nodemailer.createTransport(nodeMailerTransporterOptions);
   const mailOptions = {
-    from: HOST_EMAIL,
+    from: process.env.EMAIL_HOST,
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otpCode}.It will expire in 2 minutes`,
