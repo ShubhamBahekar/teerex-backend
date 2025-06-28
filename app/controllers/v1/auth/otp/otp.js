@@ -35,7 +35,7 @@ const sendEmail = handleAsync(async (req, res) => {
   console.log("OTPCode", otpCode);
 
   if (!user) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("UserId"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("UserId")});
   }
 
   const transporter = nodemailer.createTransport(nodeMailerTransporterOptions);
@@ -47,7 +47,7 @@ const sendEmail = handleAsync(async (req, res) => {
   };
 
   await transporter.sendMail(mailOptions);
-  return res.success(MESSAGES.apiSuccessStrings.SEND("OTP"));
+  return res.success({message:MESSAGES.apiSuccessStrings.SEND("OTP")});
 });
 
 const verifyOTP = handleAsync(async (req, res) => {
@@ -56,21 +56,21 @@ const verifyOTP = handleAsync(async (req, res) => {
   let otpDetails = await OTPInstance.findOneDoc({ email });
 
   if (!otpDetails) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP")});
   }
 
   let currentTime = Date.now();
   let diff = otpDetails.expiredIn - currentTime;
 
   if (diff < 0) {
-    return res.badRequest(MESSAGES.apiErrorStrings.DATA_IS_EXPIRED("OTP"));
+    return res.badRequest({message:MESSAGES.apiErrorStrings.DATA_IS_EXPIRED("OTP")});
   }
 
   if (otp != otpDetails.otp) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_IS_INCORRECT("OTP"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_IS_INCORRECT("OTP")});
   }
 
-  return res.success(MESSAGES.apiSuccessStrings.VERIFIED("OTP"));
+  return res.success({message:MESSAGES.apiSuccessStrings.VERIFIED("OTP")});
 });
 
 const resetPassword = handleAsync(async (req, res) => {
@@ -79,26 +79,26 @@ const resetPassword = handleAsync(async (req, res) => {
   let data = await OTPInstance.findOneDoc({ email });
 
   if (!data) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP")});
   }
 
   let currentTime = Date.now();
   let diff = data.expiredIn - currentTime;
 
   if (diff < 0) {
-    return res.badRequest(MESSAGES.apiErrorStrings.DATA_IS_EXPIRED("OTP"));
+    return res.badRequest({message:MESSAGES.apiErrorStrings.DATA_IS_EXPIRED("OTP")});
   }
 
   let user = await UserInstance.findOneDoc({ email });
   if (!user) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("User"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("User")});
   }
 
   const hashedPassword = await argon2.hash(confirmPassword);
   user.password = hashedPassword;
   await user.save();
 
-  return res.success(MESSAGES.apiSuccessStrings.UPDATE("Password"));
+  return res.success({message:MESSAGES.apiSuccessStrings.UPDATE("Password")});
 });
 
 const resendOTP = handleAsync(async (req, res) => {
@@ -111,7 +111,7 @@ const resendOTP = handleAsync(async (req, res) => {
   let currentTime = Date.now();
 
   if (!otpData) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("OTP")});
   }
 
   const isExpired = currentTime > otpData.expiredIn;
@@ -135,7 +135,7 @@ const resendOTP = handleAsync(async (req, res) => {
   };
 
   await transporter.sendMail(mailOptions);
-  return res.success(MESSAGES.apiSuccessStrings.SEND("OTP"));
+  return res.success({message:MESSAGES.apiSuccessStrings.SEND("OTP")});
 });
 
 module.exports = { sendEmail, verifyOTP, resetPassword, resendOTP };

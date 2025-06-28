@@ -9,7 +9,7 @@ const handleCreateNewUser = handleAsync(async (req, res) => {
   const existingUser = await UserInstance.findOneDoc({ email });
 
   if (existingUser) {
-    return res.conflict(MESSAGES.apiErrorStrings.DATA_ALREADY_EXISTS("User"));
+    return res.conflict({message:MESSAGES.apiErrorStrings.DATA_ALREADY_EXISTS("User")});
   }
 
   const hashedPassword = await argon2.hash(password);
@@ -28,7 +28,7 @@ const handleLoginUser = handleAsync(async (req, res) => {
   const user = await UserInstance.findOneDoc({ email });
 
   if (!user) {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Username"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Username")});
   }
 
   const isMatch = await argon2.verify(user.password, password);
@@ -37,8 +37,8 @@ const handleLoginUser = handleAsync(async (req, res) => {
 
   if (!isMatch) {
     return res.unauthorized(
-      MESSAGES.apiErrorStrings.DATA_IS_INCORRECT("Password")
-    );
+      {message:MESSAGES.apiErrorStrings.DATA_IS_INCORRECT("Password")
+  });
   }
 
   const token = user.generateAccessJWT();

@@ -12,7 +12,7 @@ const handleGetProductById = handleAsync(async (req, res) => {
 
   if(!productData)
   {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Product"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Product")});
   }
 
   return res.success(productData);
@@ -22,7 +22,7 @@ const handleDeleteProductById = handleAsync(async (req, res) => {
   const productData = await Product.findByIdAndDelete(req.params.id);
    if(!productData)
   {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Product"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Product")});
   }
   return res.success(productData);
 });
@@ -33,7 +33,7 @@ const handleUpdateProductById = handleAsync(async (req, res) => {
   });
   if(!productData)
   {
-    return res.notFound(MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Product"));
+    return res.notFound({message:MESSAGES.apiErrorStrings.DATA_NOT_EXISTS("Product")});
   }
   return res.success(productData);
 });
@@ -50,7 +50,7 @@ const handleCreateNewProduct = handleAsync(async (req, res) => {
     !body.gender ||
     !body.category
   ) {
-    return res.badRequest("All fields required...");
+    return res.badRequest({message:"All fields required..."});
   }
 
     const result = await Product.create({

@@ -4,6 +4,7 @@ env.config();
 
 module.exports = {
     SECRET_ACCESS_TOKEN:process.env.SECRET_ACCESS_TOKEN,
+    JWT_TIMEOUT_DURATION:process.env.JWT_TIMEOUT_DURATION,
     URI: process.env.URI,
     PORT: process.env.PORT,
     nodeMailerTransporterOptions: {

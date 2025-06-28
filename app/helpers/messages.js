@@ -23,7 +23,9 @@ SERVER_ERROR :"Oops! something went wrong",
 DATA_NOT_EXISTS : (data) =>`${data} does not exists`,
 DATA_ALREADY_EXISTS: (data) =>`${data} already exists`,
 DATA_IS_INCORRECT : (data) => `${data} is incorrect`,
-DATA_IS_EXPIRED : (data) => `${data} is expired`
+DATA_IS_EXPIRED : (data) => `${data} is expired`,
+UNAUTHORIZED : (data) => `${data} is unauthorized`,
+EXPIRED : (data) =>`${data} is expired. Please login again`
 },
 
 apiSuccessStrings :{

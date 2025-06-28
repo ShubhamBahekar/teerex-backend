@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const { SECRET_ACCESS_TOKEN } = require("../../../configuration/config");
+const { SECRET_ACCESS_TOKEN, JWT_TIMEOUT_DURATION } = require("../../../configuration/config");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAccessJWT = function () {
   let payload = { userId: this._id };
 
-  return jwt.sign(payload, SECRET_ACCESS_TOKEN, { expiresIn: "24h" });
+  return jwt.sign(payload, SECRET_ACCESS_TOKEN, { expiresIn: JWT_TIMEOUT_DURATION });
 };
 
 const userModel = mongoose.model("User", userSchema);
